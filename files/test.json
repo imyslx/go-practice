@@ -1,0 +1,34 @@
+{
+    "Basic": {
+        "ServerName": "Monitor12",
+        "ClientName": "server01"
+    },
+    "Items": [
+        {
+            "Command": "uname -a",
+            "Duration": 60,
+            "DataType": "ShortText"
+        },
+        {
+            "Key": "server.hostname[full]",
+            "Duration": 60,
+            "DataType": "ShortText"
+        },
+        {
+            "Key": "server.hostname[short]",
+            "Command": "uname -a",
+            "DataType": "ShortText"
+        },
+        {
+            "Key": "server.numOfCpuCores",
+            "Command": "cat /proc/cpuinfo",
+            "Duration": 60
+        },
+        {
+            "Key": "server.numOfCpuCores",
+            "Command": "cat /proc/cpuinfo",
+            "Duration": 60,
+            "DataType": "ShortText"
+        }
+    ]
+}
