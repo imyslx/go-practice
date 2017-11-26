@@ -1,0 +1,204 @@
+consumes:
+- application/json
+- application/xml
+- application/gob
+- application/x-gob
+definitions:
+  AddHostsPayload:
+    example:
+      Hostname: Nulla consequatur sit labore hic.
+      Ipaddr: Suscipit non dolor doloribus accusamus sequi.
+    properties:
+      Hostname:
+        description: ホスト名
+        example: Nulla consequatur sit labore hic.
+        type: string
+      Ipaddr:
+        default: ""
+        description: IPアドレス
+        example: Suscipit non dolor doloribus accusamus sequi.
+        type: string
+    required:
+    - Hostname
+    - Ipaddr
+    title: AddHostsPayload
+    type: object
+  DeleteHostsPayload:
+    example:
+      Hostname: Earum neque eum quia.
+      Ipaddr: Odio dicta atque itaque quis asperiores.
+    properties:
+      Hostname:
+        description: ホスト名
+        example: Earum neque eum quia.
+        type: string
+      Ipaddr:
+        default: ""
+        description: IPアドレス
+        example: Odio dicta atque itaque quis asperiores.
+        type: string
+    required:
+    - Hostname
+    - Ipaddr
+    title: DeleteHostsPayload
+    type: object
+  Result:
+    description: Practice for goa API. (default view)
+    example:
+      message: Voluptatibus officiis et laudantium.
+      status: 5.298147e+18
+    properties:
+      message:
+        description: message
+        example: Voluptatibus officiis et laudantium.
+        type: string
+      status:
+        description: status
+        example: 5.298147e+18
+        format: int64
+        type: integer
+    required:
+    - status
+    - message
+    title: 'Mediatype identifier: application/vnd.result+json; view=default'
+    type: object
+  error:
+    description: Error response media type (default view)
+    example:
+      code: invalid_value
+      detail: Value of ID must be an integer
+      id: 3F1FKVRR
+      meta:
+        timestamp: 1.458609e+09
+      status: "400"
+    properties:
+      code:
+        description: an application-specific error code, expressed as a string value.
+        example: invalid_value
+        type: string
+      detail:
+        description: a human-readable explanation specific to this occurrence of the
+          problem.
+        example: Value of ID must be an integer
+        type: string
+      id:
+        description: a unique identifier for this particular occurrence of the problem.
+        example: 3F1FKVRR
+        type: string
+      meta:
+        additionalProperties: true
+        description: a meta object containing non-standard meta-information about
+          the error.
+        example:
+          timestamp: 1.458609e+09
+        type: object
+      status:
+        description: the HTTP status code applicable to this problem, expressed as
+          a string value.
+        example: "400"
+        type: string
+    title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+    type: object
+externalDocs:
+  description: wiki
+  url: https://github.com/imyslx/go-practice/goa/README.md
+host: localhost:8081
+info:
+  description: goaの練習用サンプルです
+  title: imyslx/goa
+  version: ""
+paths:
+  /api/v1/hosts/add:
+    post:
+      description: Hostの追加
+      operationId: hosts#add
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/AddHostsPayload'
+      produces:
+      - application/vnd.goa.error
+      - application/vnd.result+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: add hosts
+      tags:
+      - hosts
+  /api/v1/hosts/delete:
+    post:
+      description: Hostの削除
+      operationId: hosts#delete
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/DeleteHostsPayload'
+      produces:
+      - application/vnd.goa.error
+      - application/vnd.result+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: delete hosts
+      tags:
+      - hosts
+  /swagger.json:
+    get:
+      operationId: swagger#/swagger.json
+      responses:
+        "200":
+          description: File downloaded
+          schema:
+            type: file
+      schemes:
+      - http
+      summary: Download swagger/swagger.json
+  /swagger/{filepath}:
+    get:
+      operationId: swagger#/swagger/*filepath
+      parameters:
+      - description: Relative file path
+        in: path
+        name: filepath
+        required: true
+        type: string
+      responses:
+        "200":
+          description: File downloaded
+          schema:
+            type: file
+        "404":
+          description: File not found
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: Download public/swagger/
+produces:
+- application/json
+- application/xml
+- application/gob
+- application/x-gob
+schemes:
+- http
+swagger: "2.0"
